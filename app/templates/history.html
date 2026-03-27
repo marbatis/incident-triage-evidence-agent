@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}History | Incident Triage Evidence Agent{% endblock %}
+{% block content %}
+<section class="panel">
+  <h1>Assessment History</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Created</th>
+        <th>Triage ID</th>
+        <th>Incident</th>
+        <th>Scenario</th>
+        <th>Service</th>
+        <th>Severity</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        <td>{{ row.created_at }}</td>
+        <td><a href="/triage/{{ row.triage_id }}">{{ row.triage_id }}</a></td>
+        <td>{{ row.incident_id }}</td>
+        <td>{{ row.scenario_type.value }}</td>
+        <td>{{ row.likely_service }}</td>
+        <td><span class="badge {{ row.severity.value|lower }}">{{ row.severity.value }}</span></td>
+        <td>{{ '%.1f'|format(row.score) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

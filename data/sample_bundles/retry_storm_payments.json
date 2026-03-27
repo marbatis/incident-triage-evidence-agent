@@ -1,0 +1,59 @@
+{
+  "incident_id": "INC-2026-1002",
+  "title": "Retry storm in payments API under partner traffic burst",
+  "timestamp": "2026-03-27T09:05:00Z",
+  "alerts": [
+    {
+      "name": "payments_retry_storm",
+      "severity": "high",
+      "message": "Retry rate exceeded safe threshold with timeout amplification"
+    },
+    {
+      "name": "queue_depth_growth",
+      "severity": "high",
+      "message": "Payments processing queue depth increasing continuously"
+    }
+  ],
+  "metric_snapshots": [
+    {
+      "metric_name": "retry_rate_per_min",
+      "value": 1200,
+      "unit": "count",
+      "window": "5m"
+    },
+    {
+      "metric_name": "p99_latency_ms",
+      "value": 3400,
+      "unit": "ms",
+      "window": "5m"
+    }
+  ],
+  "service_topology": [
+    {
+      "service": "payments",
+      "depends_on": ["ledger-db", "partner-gateway"]
+    }
+  ],
+  "recent_changes": [
+    {
+      "change_id": "CHG-702",
+      "summary": "retry client default timeout lowered from 2s to 800ms"
+    }
+  ],
+  "runbook_refs": ["payments.md"],
+  "logs": [
+    {
+      "timestamp": "2026-03-27T09:03:00Z",
+      "level": "WARN",
+      "message": "request timeout hit for partner-gateway; retry scheduled"
+    },
+    {
+      "timestamp": "2026-03-27T09:04:00Z",
+      "level": "ERROR",
+      "message": "429 from downstream with immediate retry"
+    }
+  ],
+  "affected_services": ["payments"],
+  "environment": "prod",
+  "severity_hint": "medium"
+}

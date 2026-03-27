@@ -1,0 +1,129 @@
+:root {
+  --bg: #f5f7fb;
+  --text: #132035;
+  --panel: #ffffff;
+  --border: #d8e0ed;
+  --accent: #1f4d9c;
+  --sev1: #9a1f2b;
+  --sev2: #b06b00;
+  --sev3: #1f6f3e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+  background: radial-gradient(circle at top left, #e8eef9, var(--bg));
+  color: var(--text);
+}
+
+.container {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.topbar {
+  background: #0f1a2f;
+  border-bottom: 2px solid #223a67;
+}
+
+.topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 0;
+}
+
+.brand,
+.topbar a {
+  color: #dfe8fb;
+  text-decoration: none;
+  margin-right: 1rem;
+}
+
+main {
+  padding: 1.25rem 0 2rem;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  padding: 1rem 1.2rem;
+}
+
+.sample-grid {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+button {
+  border: 1px solid #204278;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
+}
+
+.upload-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 700;
+}
+
+.badge.sev1 {
+  background: var(--sev1);
+}
+
+.badge.sev2 {
+  background: var(--sev2);
+}
+
+.badge.sev3 {
+  background: var(--sev3);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.55rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.muted {
+  color: #596779;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 800px) {
+  th,
+  td {
+    font-size: 0.85rem;
+  }
+
+  .topbar-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Home | Incident Triage Evidence Agent{% endblock %}
+{% block content %}
+<section class="panel">
+  <h1>Read-Only Incident Triage</h1>
+  <p>
+    Deterministic retrieval and policy decide scenario and severity. The model, when enabled, only drafts
+    the memo.
+  </p>
+</section>
+
+<section class="panel">
+  <h2>Run Sample Incident</h2>
+  <div class="sample-grid">
+    {% for sample in samples %}
+    <form method="post" action="/triage/sample/{{ sample }}">
+      <button type="submit">Run {{ sample }}</button>
+    </form>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="panel">
+  <h2>Upload Incident Bundle JSON</h2>
+  <form method="post" action="/triage/upload" enctype="multipart/form-data" class="upload-form">
+    <input type="file" name="file" accept="application/json" required />
+    <button type="submit">Upload and Triage</button>
+  </form>
+  <p class="muted">Expected payload: incident_id, title, timestamp, alerts, metric_snapshots, logs, etc.</p>
+</section>
+
+<section class="panel go-caution-hold">
+  <h2>Severity Semantics</h2>
+  <p><strong>SEV1:</strong> immediate coordinated response and incident command.</p>
+  <p><strong>SEV2:</strong> service-owner escalation with active mitigation.</p>
+  <p><strong>SEV3:</strong> monitor and resolve through normal incident workflow.</p>
+</section>
+{% endblock %}

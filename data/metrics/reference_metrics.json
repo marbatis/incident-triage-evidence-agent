@@ -1,0 +1,5 @@
+[
+  {"metric_name": "cert_expiry_days", "good": "> 7", "bad": "<= 3"},
+  {"metric_name": "retry_rate_per_min", "good": "< 200", "bad": ">= 300"},
+  {"metric_name": "dependency_error_rate", "good": "< 0.05", "bad": ">= 0.1"}
+]

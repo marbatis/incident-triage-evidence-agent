@@ -1,0 +1,59 @@
+{
+  "incident_id": "INC-2026-1001",
+  "title": "Auth service certificate expiry causing login failures",
+  "timestamp": "2026-03-27T14:15:00Z",
+  "alerts": [
+    {
+      "name": "auth_tls_handshake_failures",
+      "severity": "critical",
+      "message": "TLS handshake failures spiked on auth-service after cert validity check errors"
+    },
+    {
+      "name": "login_error_rate",
+      "severity": "high",
+      "message": "Auth login 5xx increased to 19%"
+    }
+  ],
+  "metric_snapshots": [
+    {
+      "metric_name": "cert_expiry_days",
+      "value": 1,
+      "unit": "days",
+      "window": "5m"
+    },
+    {
+      "metric_name": "p99_latency_ms",
+      "value": 2600,
+      "unit": "ms",
+      "window": "5m"
+    }
+  ],
+  "service_topology": [
+    {
+      "service": "auth",
+      "depends_on": ["identity-db", "token-signer"]
+    }
+  ],
+  "recent_changes": [
+    {
+      "change_id": "CHG-701",
+      "summary": "certificate rotation job disabled during maintenance"
+    }
+  ],
+  "runbook_refs": ["auth.md"],
+  "logs": [
+    {
+      "timestamp": "2026-03-27T14:12:30Z",
+      "level": "ERROR",
+      "message": "x509 certificate has expired or is not yet valid"
+    },
+    {
+      "timestamp": "2026-03-27T14:13:20Z",
+      "level": "ERROR",
+      "message": "tls handshake failure for auth endpoint"
+    }
+  ],
+  "affected_services": ["auth"],
+  "environment": "prod",
+  "severity_hint": "high"
+}

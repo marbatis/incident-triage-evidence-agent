@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Triage {{ result.triage_id }}{% endblock %}
+{% block content %}
+<section class="panel">
+  <h1>Triage {{ result.triage_id }}</h1>
+  <p><strong>Incident:</strong> {{ result.incident_id }}</p>
+  <p><strong>Scenario:</strong> {{ result.scenario_type.value }}</p>
+  <p><strong>Likely Service:</strong> {{ result.likely_service }}</p>
+  <p><strong>Severity:</strong> <span class="badge {{ result.severity.value|lower }}">{{ result.severity.value }}</span></p>
+  <p><strong>Escalation:</strong> {{ result.escalation_target }}</p>
+  <p><strong>Score:</strong> {{ '%.1f'|format(result.score) }}</p>
+</section>
+
+<section class="panel">
+  <h2>Likely Root Causes</h2>
+  <ul>
+    {% for cause in result.likely_root_causes %}
+    <li>{{ cause }}</li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section class="panel">
+  <h2>Safe Next Actions</h2>
+  <ul>
+    {% for action in result.safe_next_actions %}
+    <li>{{ action }}</li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section class="panel">
+  <h2>Evidence Citations</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Citation</th>
+        <th>Type</th>
+        <th>Source</th>
+        <th>Relevance</th>
+        <th>Excerpt</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in result.evidence %}
+      <tr>
+        <td>{{ item.citation_id }}</td>
+        <td>{{ item.source_type }}</td>
+        <td>{{ item.source_name }}</td>
+        <td>{{ '%.2f'|format(item.relevance_score) }}</td>
+        <td>{{ item.excerpt }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="panel">
+  <h2>Missing Context Warnings</h2>
+  {% if result.missing_context %}
+  <ul>
+    {% for warning in result.missing_context %}
+    <li>{{ warning }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No missing-context warnings were detected.</p>
+  {% endif %}
+</section>
+
+<section class="panel">
+  <h2>Grounded Memo</h2>
+  <p>{{ result.memo }}</p>
+</section>
+{% endblock %}

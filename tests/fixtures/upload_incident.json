@@ -1,0 +1,42 @@
+{
+  "incident_id": "INC-2026-1004",
+  "title": "Notifications impacted by dependency timeout",
+  "timestamp": "2026-03-27T18:12:00Z",
+  "alerts": [
+    {
+      "name": "notifications_dependency_timeout",
+      "severity": "high",
+      "message": "downstream unavailable and queue depth climbing"
+    }
+  ],
+  "metric_snapshots": [
+    {
+      "metric_name": "dependency_error_rate",
+      "value": 0.18,
+      "unit": "ratio",
+      "window": "5m"
+    }
+  ],
+  "service_topology": [
+    {
+      "service": "notifications",
+      "depends_on": ["sms-provider"]
+    }
+  ],
+  "recent_changes": [
+    {
+      "change_id": "CHG-704",
+      "summary": "increased timeout budget for dependency calls"
+    }
+  ],
+  "runbook_refs": ["notifications.md"],
+  "logs": [
+    {
+      "level": "ERROR",
+      "message": "dependency unavailable for notifications channel"
+    }
+  ],
+  "affected_services": ["notifications"],
+  "environment": "prod",
+  "severity_hint": "medium"
+}

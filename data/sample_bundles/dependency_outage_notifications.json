@@ -1,0 +1,59 @@
+{
+  "incident_id": "INC-2026-1003",
+  "title": "Notification delivery failures due to dependency outage",
+  "timestamp": "2026-03-27T02:20:00Z",
+  "alerts": [
+    {
+      "name": "notifications_downstream_unavailable",
+      "severity": "critical",
+      "message": "Primary SMS provider unavailable in us-central"
+    },
+    {
+      "name": "notification_error_burst",
+      "severity": "high",
+      "message": "Delivery failures exceeded 40% with dependency 5xx responses"
+    }
+  ],
+  "metric_snapshots": [
+    {
+      "metric_name": "dependency_error_rate",
+      "value": 0.31,
+      "unit": "ratio",
+      "window": "5m"
+    },
+    {
+      "metric_name": "queue_depth",
+      "value": 7200,
+      "unit": "count",
+      "window": "5m"
+    }
+  ],
+  "service_topology": [
+    {
+      "service": "notifications",
+      "depends_on": ["sms-provider", "email-provider"]
+    }
+  ],
+  "recent_changes": [
+    {
+      "change_id": "CHG-703",
+      "summary": "failover policy tightened to primary-only route"
+    }
+  ],
+  "runbook_refs": ["notifications.md"],
+  "logs": [
+    {
+      "timestamp": "2026-03-27T02:18:10Z",
+      "level": "ERROR",
+      "message": "downstream dependency unavailable: sms-provider connection refused"
+    },
+    {
+      "timestamp": "2026-03-27T02:19:20Z",
+      "level": "ERROR",
+      "message": "notification worker saturated due to repeated dependency failures"
+    }
+  ],
+  "affected_services": ["notifications"],
+  "environment": "prod",
+  "severity_hint": "high"
+}

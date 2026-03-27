@@ -1,0 +1,5 @@
+[
+  {"name": "auth_tls_handshake_failures", "type": "tls", "priority": "critical"},
+  {"name": "payments_retry_storm", "type": "retry", "priority": "high"},
+  {"name": "notifications_downstream_unavailable", "type": "dependency", "priority": "critical"}
+]
