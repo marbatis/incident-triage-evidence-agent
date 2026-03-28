@@ -9,25 +9,44 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
-      - name: Install dependencies
-        run: |
+      - run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+      - run: ruff check .
+      - run: pytest -q
 
-      - name: Lint
+  smoke:
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Start app
         run: |
-          ruff check .
-
-      - name: Run tests
+          uvicorn app.main:app --host 127.0.0.1 --port 8000 > /tmp/app.log 2>&1 &
+          for i in {1..40}; do
+            if curl -fsS http://127.0.0.1:8000/health > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:8000/health > /dev/null
+      - name: Smoke checks
         run: |
-          pytest
+          curl -fsS http://127.0.0.1:8000/health > /dev/null
+          curl -fsS http://127.0.0.1:8000/history > /dev/null
+          curl -fsS -X POST http://127.0.0.1:8000/api/triage/sample/retry_storm_payments > /dev/null
+      - name: Logs on failure
+        if: failure()
+        run: cat /tmp/app.log
