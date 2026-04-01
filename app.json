@@ -1,0 +1,16 @@
+{
+  "name": "incident-triage-evidence-agent",
+  "description": "A read-only incident triage web app that classifies a synthetic incident bundle, retrieves grounded evidence, applies deterministic severity/escalation policy, and produces a concise memo.",
+  "repository": "https://github.com/marbatis/incident-triage-evidence-agent",
+  "keywords": ["python","fastapi","incident-response","demo","heroku"],
+  "env": {
+    "PYTHONUNBUFFERED": {"description": "Disable Python output buffering", "value": "1"},
+    "PROVIDER_MODE": {"description": "Provider mode for demos", "value": "mock"}
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "eco"
+    }
+  }
+}
